@@ -37,7 +37,6 @@ class SyntaxHighlighter extends MarkupRegion
 			$language = Self::Plain;
 		$this->Language = $language;
 		parent::MarkupRegion(null, $left, $top, $width, $height);
-		$this->SetConfig('tagName', 'div');
 		$this->SetText($code);	
 	}
 	/**
@@ -51,11 +50,11 @@ class SyntaxHighlighter extends MarkupRegion
 		if(is_file($code))
 			$code = file_get_contents($code);
 		$code = htmlspecialchars($code);
-		$code = '<div class=\'' . 'brush: ' . strtolower($this->Language) . '\'>' . $code . '</div>';
+		$code = '<pre class=\'' . 'brush: ' . strtolower($this->Language) . '\'>' . $code . '</pre>';
 		//Call Parent SetText with constructed code string
 		parent::SetText($code);
-		//RaceQueue SyntaxHighlighter's ClientSide highlight function
-		ClientScript::RaceQueue($this, 'SyntaxHighlighter', 'SyntaxHighlighter.highlight');
+		//RaceQueue SyntaxHighlighter's ClientSide highlight function dependent on the Language brush loading
+		ClientScript::RaceQueue($this, 'SyntaxHighlighter.brushes.' . $this->Language, 'SyntaxHighlighter.highlight');
 	}
 	/**
 	* Set SyntaxHighlighter default
