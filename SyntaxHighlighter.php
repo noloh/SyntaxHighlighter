@@ -14,6 +14,7 @@ class SyntaxHighlighter extends MarkupRegion
 	*/
 	const Cpp = 'Cpp', CSharp = 'CSharp', CSS = 'Css', Delphi = 'Delphi', Java = 'Java', JavaScript = 'JScript', PHP = 'Php',
 	Python = 'Python', Ruby = 'Ruby', SQL = 'Sql', VisualBasic = 'Vb', XML = 'Xml', Plain = 'Plain';
+	
 	/**
 	* Used to store this instance's set language
 	* 
