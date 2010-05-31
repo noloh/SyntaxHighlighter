@@ -54,6 +54,8 @@ class SyntaxHighlighter extends MarkupRegion
 		$code = '<pre class=\'' . 'brush: ' . strtolower($this->Language) . '\'>' . $code . '</pre>';
 		//Call Parent SetText with constructed code string
 		parent::SetText($code);
+		//Manual Fix for SyntaxHighlighter Bug 164, http://bitbucket.org/alexg/syntaxhighlighter/issue/164/
+		ClientScript::RaceQueue($this, 'SyntaxHighlighter', 'SyntaxHighlighter.vars.discoveredBrushes=null;');
 		//RaceQueue SyntaxHighlighter's ClientSide highlight function dependent on the Language brush loading
 		ClientScript::RaceQueue($this, 'SyntaxHighlighter.brushes.' . $this->Language, 'SyntaxHighlighter.highlight');
 	}
@@ -89,6 +91,8 @@ class SyntaxHighlighter extends MarkupRegion
 	{
 		parent::Show();
 		$relativePath = System::GetRelativePath(getcwd(), dirname(__FILE__));
+		//Add Non-Minified Version of shCore.js for debugging
+//		ClientScript::AddSource($relativePath . '/src/shCore.js', false);
 		ClientScript::AddSource($relativePath . '/scripts/shCore.js', false);
 		ClientScript::AddSource($relativePath . '/scripts/shBrush' . $this->Language . '.js', false);
 		WebPage::That()->CSSFiles->Add($relativePath . '/styles/shCore.css');
